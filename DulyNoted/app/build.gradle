@@ -26,8 +26,37 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    // for compatibility between above and Litho
+    androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    // ~~~~~ Litho ~~~~~
+    def lithoVersion = '0.6.1'
+    compile "com.facebook.litho:litho-core:$lithoVersion"
+    compile "com.facebook.litho:litho-widget:$lithoVersion"
+    provided "com.facebook.litho:litho-annotations:$lithoVersion"
+    annotationProcessor "com.facebook.litho:litho-processor:$lithoVersion"
+    // SoLoader
+    compile 'com.facebook.soloader:soloader:0.2.0'
+    // Optional
+    // For debugging
+    debugCompile "com.facebook.litho:litho-stetho:$lithoVersion"
+    // For integration with Fresco
+    compile "com.facebook.litho:litho-fresco:$lithoVersion"
+    // For testing
+    testCompile "com.facebook.litho:litho-testing:$lithoVersion"
+    // ~~~~~ end Litho ~~~~~
+}
+
+configurations.all {
+    resolutionStrategy {
+        force 'com.android.support:appcompat-v7:26.+'
+        force 'com.android.support:support-compat:26.+'
+        force 'com.android.support:support-core-ui:26.+'
+        force 'com.android.support:support-annotations:26.+'
+        force 'com.android.support:recyclerview-v7:26.+'
+    }
 }
