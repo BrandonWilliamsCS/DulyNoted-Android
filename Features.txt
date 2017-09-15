@@ -1,0 +1,32 @@
+preferences: what kind of slide show?
+- which prompts, response types
+- sharp/flat, etc.
+- "default" settings and overrides
+- maybe saveable settings (e.g., "piano playing mode" only prompts staff, respond keys)
+- is octave important, when applicable?
+- shuffle keys?
+
+slideshow
+- see prompt, give response (and either manual or auto advance)
+- confirm answer or accept right away
+- score, time, progress (e.g., on slide 2 of 10)
+- response can be in any different format
+- re-play incorrect
+
+record-keeping
+- note
+- prompt format
+- response format
+- correctness
+- current preferences
+- improvement/comparison to previous data
+
+Education
+- memnonics
+- explanation
+
+If ambitious:
+-play/record with frequency
+-prompt on piano book
+-respond in keys area
+-profiles

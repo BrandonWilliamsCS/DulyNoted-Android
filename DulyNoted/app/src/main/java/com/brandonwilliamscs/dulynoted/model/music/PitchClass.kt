@@ -1,4 +1,4 @@
-package com.brandonwilliamscs.dulynoted.Model.Music
+package com.brandonwilliamscs.dulynoted.model.music
 
 /**
  * Represents 12 divisions within a scale.

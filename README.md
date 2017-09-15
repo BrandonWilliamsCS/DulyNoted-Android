@@ -1,5 +1,13 @@
 # DulyNoted-Android
 
+Duly Noted is an app designed to help those learning piano or sight reading to associate notes with keys and positions on a musical staff.
+In particular, this Android app was created as an experiment to minimize side effects in a non-trivial app.
+The biggest source of side effects in an app environment is I/O; to mitigate this, I'll be using Litho, by Facebook.
+Litho is a declarative UI library that encapsulates the UI/state coordination logic.
+By passing just the model state to the components, we can avoid having to manipulate the view directly.
+Then it's (mostly) a matter of mapping old state to new state as "events" (user interaction, background task completion) occur.
+
+
 ## Terminology:
 
 - *Keyboard*: A full or partial piano keyboard

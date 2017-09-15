@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 26
@@ -34,15 +35,16 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     // ~~~~~ Litho ~~~~~
+    // details here: https://github.com/ubuntudroid/litho-kotlin
     def lithoVersion = '0.6.1'
     compile "com.facebook.litho:litho-core:$lithoVersion"
     compile "com.facebook.litho:litho-widget:$lithoVersion"
     provided "com.facebook.litho:litho-annotations:$lithoVersion"
-    annotationProcessor "com.facebook.litho:litho-processor:$lithoVersion"
+    kapt "com.facebook.litho:litho-annotations:$lithoVersion" // in addition(!) to the "provided" line
+    kapt "com.facebook.litho:litho-processor:$lithoVersion" // kapt instead of annotationprocessor or apt
     // SoLoader
     compile 'com.facebook.soloader:soloader:0.2.0'
-    // Optional
-    // For debugging
+    // Optional, For debugging
     debugCompile "com.facebook.litho:litho-stetho:$lithoVersion"
     // For integration with Fresco
     compile "com.facebook.litho:litho-fresco:$lithoVersion"

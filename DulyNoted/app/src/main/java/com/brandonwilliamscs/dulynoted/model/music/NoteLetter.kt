@@ -1,4 +1,4 @@
-package com.brandonwilliamscs.dulynoted.Model.Music
+package com.brandonwilliamscs.dulynoted.model.music
 
 /**
  * Encodes some behavior and type safety around
