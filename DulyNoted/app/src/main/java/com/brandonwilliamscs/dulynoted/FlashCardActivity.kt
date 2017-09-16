@@ -4,11 +4,14 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.brandonwilliamscs.dulynoted.model.music.PitchClass
 import com.brandonwilliamscs.dulynoted.model.music.getRandomPitchClass
+import com.brandonwilliamscs.dulynoted.view.components.FlashCards
 import com.brandonwilliamscs.dulynoted.view.components.PromptArea
 import com.facebook.litho.ComponentContext
 import com.facebook.litho.LithoView
+import com.facebook.litho.stetho.LithoWebKitInspector
 import com.facebook.litho.widget.Text
 import com.facebook.soloader.SoLoader
+import com.facebook.stetho.Stetho
 
 class FlashCardActivity : AppCompatActivity() {
 
@@ -16,9 +19,6 @@ class FlashCardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //!! figure out what to do with this.
         setContentView(R.layout.activity_flash_card)
-
-        // TODO: consider moving this to an Application class?
-        SoLoader.init(this, false)
     }
 
     override fun onStart() {
@@ -29,9 +29,9 @@ class FlashCardActivity : AppCompatActivity() {
         val pitchClass = PitchClass.getRandomPitchClass()
         val lithoView = LithoView.create(
                 this /* context */,
-                PromptArea.create(context)
-                        .pitchClass(pitchClass)
-                        .build());
-        setContentView(lithoView);
+                FlashCards.create(context)
+                        .promptPitchClass(pitchClass)
+                        .build())
+        setContentView(lithoView)
     }
 }
