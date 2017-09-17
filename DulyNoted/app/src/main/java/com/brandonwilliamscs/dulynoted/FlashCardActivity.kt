@@ -14,23 +14,16 @@ import com.facebook.soloader.SoLoader
 import com.facebook.stetho.Stetho
 
 class FlashCardActivity : AppCompatActivity() {
-
+    //!! comment everything, call out impurity (in most general available case, or here as a placeholder)
+    // clean up imports, maximize unit test coverage
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //!! figure out what to do with this.
-        setContentView(R.layout.activity_flash_card)
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        //!! this is really just proof-of-concept stuff.
         val context = ComponentContext(this)
         val pitchClass = PitchClass.getRandomPitchClass()
         val lithoView = LithoView.create(
                 this /* context */,
                 FlashCards.create(context)
-                        .promptPitchClass(pitchClass)
+                        .initialModel(pitchClass)
                         .build())
         setContentView(lithoView)
     }
