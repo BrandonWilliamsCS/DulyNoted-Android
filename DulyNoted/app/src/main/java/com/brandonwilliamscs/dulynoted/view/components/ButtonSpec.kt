@@ -10,19 +10,19 @@ import com.facebook.litho.annotations.OnCreateLayout
 import com.facebook.litho.widget.Text
 import com.facebook.yoga.YogaAlign
 import com.facebook.yoga.YogaEdge
-import com.facebook.yoga.YogaJustify
 
 
 /**
+ * Very basic Material-esque button.
  * Created by Brandon on 9/15/2017.
  */
-@LayoutSpec
+@LayoutSpec(isPureRender = true)
 public class ButtonSpec {
     companion object {
         @JvmStatic
         @OnCreateLayout
         fun onCreateLayout(c: ComponentContext, @Prop text: String): ComponentLayout {
-            // TODO: magic constants into dimensions
+            // TODO: work out generic component styling with Litho
             val textComponent = Text.create(c)
                     .text(text)
                     .textSizeDip(18f)

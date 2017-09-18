@@ -2,7 +2,9 @@ package com.brandonwilliamscs.dulynoted.model.music
 
 /**
  * Represents 12 divisions within a scale.
- *
+ * @property baseNoteLetter the letter for this pitch class, before any sharpening or flattening
+ * @property sharpenBaseNote whether or not this pitch class is a half-step up from the base letter's pitch class
+ * @property cacheIndex used internally for efficiency in computing new instances
  * Created by Brandon on 9/10/2017.
  */
 data class PitchClass private constructor(
@@ -27,21 +29,46 @@ data class PitchClass private constructor(
             PitchClass(NoteLetter.B, false, 11)
         )
 
-        public val C: PitchClass = pitchClasses[0];
+        /**
+         * The pitch class associated with the note letter C.
+         */
+        val C: PitchClass = pitchClasses[0];
 
-        public fun getPitchClass(baseNoteLetter: Char, sharpenBaseNote: Boolean = false): PitchClass {
+        /**
+         * Retrieve the pitch class from the given note letter and optional sharpening.
+         * @param baseNoteLetter the note letter for this pitch class, in plain character form
+         * @param sharpenBaseNote whether or not this pitch class is a sharp version of the note letter
+         */
+        fun getPitchClass(baseNoteLetter: Char, sharpenBaseNote: Boolean = false): PitchClass {
             // TODO: prevent case where letter can't be sharpened
             return pitchClasses.first { it.matches(baseNoteLetter, sharpenBaseNote) }
         }
 
-        public fun getPitchClass(baseNoteLetter: NoteLetter, sharpenBaseNote: Boolean = false): PitchClass
+        /**
+         * Retrieve the pitch class from the given note letter and optional sharpening.
+         * @param baseNoteLetter the note letter for this pitch class, in NoteLetter enum form
+         * @param sharpenBaseNote whether or not this pitch class is a sharp version of the note letter
+         */
+        fun getPitchClass(baseNoteLetter: NoteLetter, sharpenBaseNote: Boolean = false): PitchClass
             = getPitchClass(baseNoteLetter.letter, sharpenBaseNote)
     }
 
-    public fun matches(baseNoteLetter: Char, sharpenBaseNote: Boolean): Boolean
+    /**
+     * Convenience method for verifying that the pitch class matches the given note letter and sharpness.
+     * @param baseNoteLetter the note letter to compare to this pitch class's note letter
+     * @param sharpenBaseNote the sharpness to compare to this pitch class's sharpness
+     * @return whether or not the pitch class matches the given data
+     */
+    fun matches(baseNoteLetter: Char, sharpenBaseNote: Boolean): Boolean
         = baseNoteLetter == this.baseNoteLetter.letter && sharpenBaseNote == this.sharpenBaseNote
 
-    public fun increasePitch(amount: Int, includeAllSemiTones: Boolean = false): PitchClass {
+    /**
+     * Adjust the pitch upwards, optionally including each sharpened half-step in the process.
+     * @param amount the number of (half-)steps to increase
+     * @param includeAllSemiTones whether or not to increase in half-steps rather than letter-by-letter.
+     * @return the pitch class located the desired number of (half-)steps above this
+     */
+    fun increasePitch(amount: Int, includeAllSemiTones: Boolean = false): PitchClass {
         if (includeAllSemiTones) {
             return pitchClasses[(cacheIndex + amount) % 12]
         } else {
@@ -49,11 +76,4 @@ data class PitchClass private constructor(
             return getPitchClass(letter)
         }
     }
-}
-
-//!! move to where it belongs
-fun PitchClass.Companion.getRandomPitchClass(includeAllSemiTones: Boolean = false): PitchClass {
-    val adjustmentRange = if (includeAllSemiTones) 12 else 7
-    val adjustment = (Math.random() * adjustmentRange).toInt()
-    return PitchClass.C.increasePitch(adjustment, includeAllSemiTones)
 }

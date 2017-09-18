@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name="DulyNoted">
-        <activity android:name=".FlashCardActivity" android:screenOrientation="landscape">
+        <activity android:name=".DulyNotedActivity" android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

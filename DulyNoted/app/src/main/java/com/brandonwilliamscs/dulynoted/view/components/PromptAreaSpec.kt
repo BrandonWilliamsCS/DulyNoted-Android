@@ -11,9 +11,10 @@ import com.facebook.yoga.YogaAlign
 import com.facebook.yoga.YogaJustify
 
 /**
+ * Displays the "prompt" part of a flashcard. This may be any supported format.
  * Created by Brandon on 9/15/2017.
  */
-@LayoutSpec
+@LayoutSpec(isPureRender = true)
 class PromptAreaSpec {
     companion object {
         @JvmStatic

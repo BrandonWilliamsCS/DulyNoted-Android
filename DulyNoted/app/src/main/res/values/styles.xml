@@ -8,4 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- TODO: accessibility, tiny phone sizes, and zoom level -->
+    <style name="PromptLetter" parent="@android:style/TextAppearance">
+        <item name="android:textSize">50dp</item>
+    </style>
 </resources>
