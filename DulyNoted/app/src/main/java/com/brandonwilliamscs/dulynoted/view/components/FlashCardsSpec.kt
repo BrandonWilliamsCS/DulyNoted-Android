@@ -19,7 +19,8 @@ class FlashCardsSpec {
         fun createInitialState(
                 c: ComponentContext,
                 model: StateValue<DulyNotedState>,
-                @Prop initialModel: DulyNotedState) {
+                @Prop initialModel: DulyNotedState
+        ) {
             // Side-effect! Sort of. But only due to how the framework wishes to set initial state.
             // In this case, it's a glorified "out" parameter, which is a glorified return value.
             model.set(initialModel)
@@ -45,8 +46,8 @@ class FlashCardsSpec {
             val nextModel = model.nextSlideRequested()
             FlashCards.updateModelAsync(c, nextModel)
         }
-        @JvmStatic
 
+        @JvmStatic
         @OnUpdateState
         fun updateModel(
                 model: StateValue<DulyNotedState>,

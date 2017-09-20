@@ -2,11 +2,24 @@
 
 Duly Noted is an app designed to help those learning piano or sight reading to associate notes with keys and positions on a musical staff.
 In particular, this Android app was created as an experiment to minimize side effects in a non-trivial app.
+
 The biggest source of side effects in an app environment is I/O; to mitigate this, I'll be using Litho, by Facebook.
 Litho is a declarative UI library that encapsulates the UI/state coordination logic.
 By passing just the model state to the components, we can avoid having to manipulate the view directly.
-Then it's (mostly) a matter of mapping old state to new state as "events" (user interaction, background task completion) occur.
 
+Aside from the view, it's (mostly) a matter of mapping old state to new state as "events" (user interaction, background task completion) occur.
+By channeling state-changing events through a stream, we ensure that the state gets updated sequentially. This, in turn, eliminates a lot of concurrency-related issues.
+
+## Goals and Guidelines:
+
+- Stay functional, leaving side effects to libraries as much as possible
+  - `val` instead of `var`
+  - immutable collections and data structures
+  - declarative UI
+  - Functional Reactive Programming for data flows (communication across app areas)
+- Mark any side effect with a `Side-effect!` comment, along with a justification
+- Full unit test coverage on the model, as well as on complex Litho components
+- Maintain best practices and patterns for Android or app dev in general
 
 ## Terminology:
 
@@ -23,27 +36,3 @@ Then it's (mostly) a matter of mapping old state to new state as "events" (user 
 - *Pitch*: A frequency of music, representing one Pitch Class in one Octave
 
 - *Pitch Class*: The "letter" portion of the Pitch - not Octave specific
-
-## Library Considerations
-
-Retrofit (networking library) + GSON or Moshi (JSON parsing) + Glide or Picasso (image loading) + RxJava + Dagger2 (dependency injection) + Mockito and PowerMockito (mocking in unit tests)
-That's kinda the golden lineup that a lot of people are using and looking at.
-
-Butterknife was used for data binding is kinda deprecated / not used any more because it is not built into the standard Android tools.
-If you're using Kotlin, the extended Android Kotlin plugin/tools also has some data-binding features built in.
-
-RxJava has an RxKotlin flavor. For the json parsing, GSON can get weird with Kotlin. I haven't used Moshi but it is a newer library that is likely more up to date. It's built by Square (also known as Jake Wharton) just like  Retrofit. So it probably has better Kotlin support.
-
-Picasso is another one by Square, still haven't used it. But we really liked Glide in ooVoo. Glide is built by a dude that works at Google, and is used in most of their apps. (edited)
-
-Compare Butterknife to Dagger2
-
-### DI
-
-### Package Management
-
-### Promises?
-
-### Web Requests
-
-### Unit Tests

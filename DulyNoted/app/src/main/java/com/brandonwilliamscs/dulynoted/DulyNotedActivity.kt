@@ -12,7 +12,6 @@ import com.facebook.litho.LithoView
  * Stuff that's typically handled by switching Activities or Fragments will instead be handled with Litho/state.
  */
 class DulyNotedActivity : AppCompatActivity() {
-    //!! comment everything, maximize unit test coverage
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val context = ComponentContext(this)

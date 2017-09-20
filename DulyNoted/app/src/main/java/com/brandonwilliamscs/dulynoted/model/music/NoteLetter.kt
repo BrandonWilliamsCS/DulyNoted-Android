@@ -16,22 +16,24 @@ enum class NoteLetter(val letter: Char) {
     A('A'),
     B('B');
 
-    /**
-     * Retrieve the NoteLetter for a given letter character.
-     * @param char a valid musical note letter (A-G)
-     * @return the letter, wrapped in a NoteLetter enum
-     * @throws IllegalArgumentException the char param is not a valid musical note letter
-     */
-    fun fromChar(char: Char) = when (char) {
-        'A' -> A
-        'B' -> B
-        'C' -> C
-        'D' -> D
-        'E' -> E
-        'F' -> F
-        'G' -> G
-        // TODO: better exceptions
-        else -> throw IllegalArgumentException("Cannot form Note Letter from char: " + char)
+    companion object {
+        /**
+         * Retrieve the NoteLetter for a given letter character.
+         * @param char a valid musical note letter (A-G)
+         * @return the letter, wrapped in a NoteLetter enum
+         * @throws IllegalArgumentException the char param is not a valid musical note letter
+         */
+        fun fromChar(char: Char) = when (char) {
+            'A' -> A
+            'B' -> B
+            'C' -> C
+            'D' -> D
+            'E' -> E
+            'F' -> F
+            'G' -> G
+            // TODO: better exceptions
+            else -> throw IllegalArgumentException("Cannot form Note Letter from char: " + char)
+        }
     }
 
     /**
@@ -41,7 +43,9 @@ enum class NoteLetter(val letter: Char) {
      */
     fun increaseLetter(amount: Int): NoteLetter {
         val currentLetterOffset = letter.minus('A')
-        val letterOffset = (currentLetterOffset + amount) % 7
+        // adjust the amount to avoid negatives
+        val adjustedAmount = (amount % 7) + 7
+        val letterOffset = (currentLetterOffset + adjustedAmount) % 7
         val letter = 'A'.plus(letterOffset)
         return fromChar(letter)
     }

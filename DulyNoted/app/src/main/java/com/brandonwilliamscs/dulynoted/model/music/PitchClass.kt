@@ -70,7 +70,8 @@ data class PitchClass private constructor(
      */
     fun increasePitch(amount: Int, includeAllSemiTones: Boolean = false): PitchClass {
         if (includeAllSemiTones) {
-            return pitchClasses[(cacheIndex + amount) % 12]
+            val adjustedAmount = (amount % 12) + 12
+            return pitchClasses[(cacheIndex + adjustedAmount) % 12]
         } else {
             val letter = baseNoteLetter.increaseLetter(amount)
             return getPitchClass(letter)
