@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="halfUnit">4dp</dimen>
-    <dimen name="unit">8dp</dimen>
+    <dimen name="whiteKeyBorder">2dp</dimen>
 </resources>

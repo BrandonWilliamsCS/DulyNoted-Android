@@ -17,7 +17,7 @@ class FlashCardsSpec {
         @JvmStatic
         @OnCreateInitialState
         fun createInitialState(
-                c: ComponentContext,
+                @Suppress("UNUSED_PARAMETER") c: ComponentContext,
                 model: StateValue<DulyNotedState>,
                 @Prop initialModel: DulyNotedState
         ) {

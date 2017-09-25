@@ -77,4 +77,9 @@ data class PitchClass private constructor(
             return getPitchClass(letter)
         }
     }
+
+    /**
+     * Convenience property for recognizing notes that could have a "sharp" form.
+     */
+    val hasSharp: Boolean get() = baseNoteLetter == increasePitch(1, true).baseNoteLetter
 }

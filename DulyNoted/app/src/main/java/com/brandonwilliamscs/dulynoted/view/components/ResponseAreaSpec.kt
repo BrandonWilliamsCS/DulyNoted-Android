@@ -1,15 +1,15 @@
 package com.brandonwilliamscs.dulynoted.view.components
 
+import com.brandonwilliamscs.dulynoted.model.music.PitchClass
 import com.brandonwilliamscs.dulynoted.util.AndroidUtil
 import com.brandonwilliamscs.dulynoted.util.children
+import com.brandonwilliamscs.dulynoted.view.components.keyboard.Keyboard
 import com.brandonwilliamscs.dulynoted.view.components.keyboard.WhiteKey
+import com.brandonwilliamscs.dulynoted.view.events.KeyPressEvent
 import com.brandonwilliamscs.dulynoted.view.events.UserIntent
 import com.brandonwilliamscs.dulynoted.view.events.UserIntentEvent
 import com.facebook.litho.*
-import com.facebook.litho.annotations.LayoutSpec
-import com.facebook.litho.annotations.OnCreateLayout
-import com.facebook.litho.annotations.OnEvent
-import com.facebook.litho.annotations.Prop
+import com.facebook.litho.annotations.*
 import com.facebook.yoga.YogaAlign
 import com.facebook.yoga.YogaJustify
 
@@ -23,32 +23,23 @@ class ResponseAreaSpec {
         @JvmStatic
         @OnCreateLayout
         fun onCreateLayout(c: ComponentContext): ComponentLayout
-                // Functional craziness: this is a very traditional funtional idiom, but maybe not Kotlin.
-                // Basically, we're naming a value and then creating a block where it can be used by that name.
-                =AndroidUtil.computeDeviceWidthDp(c.resources.displayMetrics).let { deviceWidth ->
-                    (deviceWidth / 50).toInt().let { whiteKeyCount ->
-                        Row.create(c)
-                                .children(
-                                        IntRange(1, whiteKeyCount).asSequence()
-                                                .map {
-                                                    WhiteKey.create(c)
-                                                    .withLayout()
-                                                    //!! dimen here. And/or dynamic by screen width.
-                                                    .widthDip(50)
-                                                    .maxHeightPercent(100f)
-                                                    .clickHandler(ResponseArea.onNextClick(c))
-                                                })
-                                .justifyContent(YogaJustify.CENTER)
-                                .alignItems(YogaAlign.FLEX_END)
-                                .build()
-                    }
-                }
+                = Row.create(c)
+                .child(Keyboard.create(c)
+                        .startPitchClass(PitchClass.C)
+                        .count(12)
+                        .keyPressHandler(ResponseArea.onKeyPress(c))
+                        .withLayout()
+                        .heightPercent(100f))
+                .justifyContent(YogaJustify.CENTER)
+                .alignItems(YogaAlign.FLEX_END)
+                .build()
 
         @JvmStatic
-        @OnEvent(ClickEvent::class)
-        fun onNextClick(
-                c: ComponentContext,
-                @Prop userIntentHandler: EventHandler<UserIntentEvent>
+        @OnEvent(KeyPressEvent::class)
+        fun onKeyPress(
+                @Suppress("UNUSED_PARAMETER") c: ComponentContext,
+                @Prop userIntentHandler: EventHandler<UserIntentEvent>,
+                @FromEvent pitchClass: PitchClass
         ) {
             ResponseArea.dispatchUserIntentEvent(
                     userIntentHandler,
