@@ -1,7 +1,6 @@
 package com.brandonwilliamscs.dulynoted.view.components.keyboard
 
 import android.graphics.Color
-import com.facebook.litho.Column
 import com.facebook.litho.ComponentContext
 import com.facebook.litho.ComponentLayout
 import com.facebook.litho.annotations.LayoutSpec
@@ -17,10 +16,9 @@ class FillerKeySpec {
         @JvmStatic
         @OnCreateLayout
         fun onCreateLayout(c: ComponentContext): ComponentLayout
-                = Column.create(c)
-                .child(SolidColor.create(c)
-                        .color(Color.TRANSPARENT)
-                        .withLayout())
+                = SolidColor.create(c)
+                .color(Color.TRANSPARENT)
+                .withLayout()
                 .widthPercent(100f)
                 .heightPercent(100f)
                 .build()

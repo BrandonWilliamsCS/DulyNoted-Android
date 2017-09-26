@@ -1,5 +1,6 @@
 package com.brandonwilliamscs.dulynoted.view.components.keyboard
 
+import com.brandonwilliamscs.dulynoted.R
 import com.brandonwilliamscs.dulynoted.model.music.PitchClass
 import com.brandonwilliamscs.dulynoted.view.events.KeyPressEvent
 import com.facebook.litho.*
@@ -27,8 +28,7 @@ class KeySpec {
                         else if (pitchClass.sharpenBaseNote) BlackKey.create(c)
                         else WhiteKey.create(c)
                 )
-                //!! style better
-                .widthDip(50)
+                .widthRes(R.dimen.keyWidth)
                 .heightPercent(100f)
                 .alignItems(YogaAlign.CENTER)
                 .clickHandler(Key.onClick(c))

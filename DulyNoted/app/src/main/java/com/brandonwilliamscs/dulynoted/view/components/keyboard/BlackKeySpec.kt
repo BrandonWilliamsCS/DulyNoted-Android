@@ -1,7 +1,6 @@
 package com.brandonwilliamscs.dulynoted.view.components.keyboard
 
 import android.graphics.Color
-import com.facebook.litho.Column
 import com.facebook.litho.ComponentContext
 import com.facebook.litho.ComponentLayout
 import com.facebook.litho.annotations.LayoutSpec
@@ -17,13 +16,9 @@ class BlackKeySpec {
         @JvmStatic
         @OnCreateLayout
         fun onCreateLayout(c: ComponentContext): ComponentLayout
-                = Column.create(c)
-                //!! style better
-                .child(SolidColor.create(c)
-                        .color(Color.BLACK)
-                        .withLayout()
-                        .widthPercent(100f)
-                        .heightPercent(100f))
+                = SolidColor.create(c)
+                .color(Color.BLACK)
+                .withLayout()
                 .widthPercent(70f)
                 .heightPercent(100f)
                 .build()
