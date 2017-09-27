@@ -1,10 +1,7 @@
 package com.brandonwilliamscs.dulynoted.view.components
 
 import com.brandonwilliamscs.dulynoted.model.music.PitchClass
-import com.brandonwilliamscs.dulynoted.util.AndroidUtil
-import com.brandonwilliamscs.dulynoted.util.children
 import com.brandonwilliamscs.dulynoted.view.components.keyboard.Keyboard
-import com.brandonwilliamscs.dulynoted.view.components.keyboard.WhiteKey
 import com.brandonwilliamscs.dulynoted.view.events.KeyPressEvent
 import com.brandonwilliamscs.dulynoted.view.events.UserIntent
 import com.brandonwilliamscs.dulynoted.view.events.UserIntentEvent
@@ -43,8 +40,8 @@ class ResponseAreaSpec {
         ) {
             ResponseArea.dispatchUserIntentEvent(
                     userIntentHandler,
-                    UserIntent.NextSlide
-            );
+                    UserIntent.GuessAnswer(pitchClass)
+            )
         }
     }
 }

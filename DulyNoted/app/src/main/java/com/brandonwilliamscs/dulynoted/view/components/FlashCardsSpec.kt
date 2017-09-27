@@ -1,9 +1,12 @@
 package com.brandonwilliamscs.dulynoted.view.components
 
 import com.brandonwilliamscs.dulynoted.model.DulyNotedState
+import com.brandonwilliamscs.dulynoted.view.events.UserIntent
 import com.brandonwilliamscs.dulynoted.view.events.UserIntentEvent
 import com.facebook.litho.*
 import com.facebook.litho.annotations.*
+import io.reactivex.Observable
+import io.reactivex.Observer
 
 
 /**
@@ -17,13 +20,15 @@ class FlashCardsSpec {
         @JvmStatic
         @OnCreateInitialState
         fun createInitialState(
-                @Suppress("UNUSED_PARAMETER") c: ComponentContext,
+                c: ComponentContext,
                 model: StateValue<DulyNotedState>,
-                @Prop initialModel: DulyNotedState
+                @Prop initialModel: DulyNotedState,
+                @Prop modelStream: Observable<DulyNotedState>
         ) {
             // Side-effect! Sort of. But only due to how the framework wishes to set initial state.
             // In this case, it's a glorified "out" parameter, which is a glorified return value.
             model.set(initialModel)
+            modelStream.subscribe { FlashCards.updateModel_ImpureAsync(c, it) }
         }
 
         @JvmStatic
@@ -40,16 +45,18 @@ class FlashCardsSpec {
 
         @JvmStatic
         @OnEvent(UserIntentEvent::class)
-        fun onUserIntent(c: ComponentContext, @State model: DulyNotedState) {
-            // TODO: when the model gets more complex, communicate through RX streams instead.
-            // At this instant, there's only one user intent, so don't bother looking at it.
-            val nextModel = model.nextSlideRequested()
-            FlashCards.updateModelAsync(c, nextModel)
+        fun onUserIntent(
+                @Suppress("UNUSED_PARAMETER") c: ComponentContext,
+                @FromEvent userIntent: UserIntent,
+                @Prop intentStream: Observer<UserIntent>
+        ) {
+            // Side-effect! This one is abstracted away by RX, and doesn't mess with exposed state.
+            intentStream.onNext(userIntent)
         }
 
         @JvmStatic
         @OnUpdateState
-        fun updateModel(
+        fun updateModel_Impure(
                 model: StateValue<DulyNotedState>,
                 @Param newModel: DulyNotedState
         ) {

@@ -5,7 +5,7 @@ import com.facebook.stetho.Stetho
 import com.facebook.soloader.SoLoader
 import android.app.Application
 
-
+//!! launcher icon
 
 /**
  * Application class houses the initialization code for SoLoader and Stetho.

@@ -44,7 +44,7 @@ class KeySpec {
             Key.dispatchKeyPressEvent(
                     keyPressHandler,
                     pitchClass
-            );
+            )
         }
     }
 }
