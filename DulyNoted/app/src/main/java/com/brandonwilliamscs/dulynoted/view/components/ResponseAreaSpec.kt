@@ -1,5 +1,7 @@
 package com.brandonwilliamscs.dulynoted.view.components
 
+import android.graphics.Color
+import com.brandonwilliamscs.dulynoted.model.Guess
 import com.brandonwilliamscs.dulynoted.model.music.PitchClass
 import com.brandonwilliamscs.dulynoted.view.components.keyboard.Keyboard
 import com.brandonwilliamscs.dulynoted.view.events.KeyPressEvent
@@ -9,6 +11,7 @@ import com.facebook.litho.*
 import com.facebook.litho.annotations.*
 import com.facebook.yoga.YogaAlign
 import com.facebook.yoga.YogaJustify
+import com.brandonwilliamscs.dulynoted.util.conditionally
 
 /**
  * Displays the "response" part of a flashcard. This may be any supported format.
@@ -19,10 +22,15 @@ class ResponseAreaSpec {
     companion object {
         @JvmStatic
         @OnCreateLayout
-        fun onCreateLayout(c: ComponentContext): ComponentLayout
+        fun onCreateLayout(c: ComponentContext, @Prop(optional = true) currentGuess: Guess?): ComponentLayout
                 = Row.create(c)
                 .child(Keyboard.create(c)
                         .startPitchClass(PitchClass.C)
+                        .conditionally(currentGuess != null) {
+                            //!! style right
+                            val color = if (currentGuess!!.isCorrect) Color.GREEN else Color.RED
+                            keyHighlight(Pair(currentGuess!!.value, color))
+                        }
                         .count(12)
                         .keyPressHandler(ResponseArea.onKeyPress(c))
                         .withLayout()

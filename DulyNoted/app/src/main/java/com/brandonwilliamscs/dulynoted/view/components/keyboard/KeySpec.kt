@@ -2,6 +2,7 @@ package com.brandonwilliamscs.dulynoted.view.components.keyboard
 
 import com.brandonwilliamscs.dulynoted.R
 import com.brandonwilliamscs.dulynoted.model.music.PitchClass
+import com.brandonwilliamscs.dulynoted.util.conditionally
 import com.brandonwilliamscs.dulynoted.view.events.KeyPressEvent
 import com.facebook.litho.*
 import com.facebook.litho.annotations.LayoutSpec
@@ -20,13 +21,14 @@ class KeySpec {
         @OnCreateLayout
         fun onCreateLayout(
                 c: ComponentContext,
-                @Prop pitchClass: PitchClass?
+                @Prop pitchClass: PitchClass?,
+                @Prop(optional = true) highlightColor: Int?
         ): ComponentLayout
                 = Column.create(c)
                 .child(
                         if (pitchClass == null) FillerKey.create(c)
-                        else if (pitchClass.sharpenBaseNote) BlackKey.create(c)
-                        else WhiteKey.create(c)
+                        else if (pitchClass.sharpenBaseNote) BlackKey.create(c).highlightColor(highlightColor)
+                        else WhiteKey.create(c).highlightColor(highlightColor)
                 )
                 .widthRes(R.dimen.keyWidth)
                 .heightPercent(100f)

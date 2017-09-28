@@ -6,6 +6,7 @@ import com.facebook.litho.ComponentContext
 import com.facebook.litho.ComponentLayout
 import com.facebook.litho.annotations.LayoutSpec
 import com.facebook.litho.annotations.OnCreateLayout
+import com.facebook.litho.annotations.Prop
 import com.facebook.litho.widget.SolidColor
 import com.facebook.yoga.YogaEdge
 
@@ -17,14 +18,14 @@ class WhiteKeySpec {
     companion object {
         @JvmStatic
         @OnCreateLayout
-        fun onCreateLayout(c: ComponentContext): ComponentLayout
+        fun onCreateLayout(c: ComponentContext, @Prop highlightColor: Int?): ComponentLayout
                 = SolidColor.create(c)
-                .color(Color.WHITE)
+                .color(highlightColor ?: Color.WHITE)
                 .withLayout()
                 .widthPercent(100f)
                 .heightPercent(100f)
                 .borderColor(Color.BLACK)
-                .borderWidthRes(YogaEdge.ALL, R.dimen.whiteKeyBorder)
+                .borderWidthRes(YogaEdge.ALL, R.dimen.keyBorder)
                 .build()
     }
 }

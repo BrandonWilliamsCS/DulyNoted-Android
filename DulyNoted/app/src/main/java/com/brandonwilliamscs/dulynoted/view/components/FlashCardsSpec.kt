@@ -39,6 +39,7 @@ class FlashCardsSpec {
                         .pitchClass(model.currentPromptPitchClass)
                         .withLayout().maxHeightPercent(50f).flexGrow(1f))
                 .child(ResponseArea.create(c)
+                        .currentGuess(model.currentGuess)
                         .userIntentHandler(FlashCards.onUserIntent(c))
                         .withLayout().maxHeightPercent(50f).flexGrow(1f))
                 .build()

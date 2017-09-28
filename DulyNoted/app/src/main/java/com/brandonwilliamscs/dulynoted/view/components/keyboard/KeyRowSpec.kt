@@ -2,6 +2,7 @@ package com.brandonwilliamscs.dulynoted.view.components.keyboard
 
 import com.brandonwilliamscs.dulynoted.model.music.PitchClass
 import com.brandonwilliamscs.dulynoted.util.children
+import com.brandonwilliamscs.dulynoted.util.conditionally
 import com.brandonwilliamscs.dulynoted.view.events.KeyPressEvent
 import com.facebook.litho.*
 import com.facebook.litho.annotations.LayoutSpec
@@ -20,11 +21,17 @@ class KeyRowSpec {
         fun onCreateLayout(
                 c: ComponentContext,
                 @Prop pitchClasses: Sequence<PitchClass?>,
+                @Prop keyHighlights: Map<PitchClass, Int>,
                 @Prop keyPressHandler: EventHandler<KeyPressEvent>
         ): ComponentLayout
                 = Row.create(c)
                 .children(pitchClasses.map {
-                    Key.create(c).pitchClass(it).keyPressHandler(keyPressHandler)
+                    Key.create(c)
+                            .pitchClass(it)
+                            .conditionally(keyHighlights.containsKey(it)) {
+                                highlightColor(keyHighlights[it])
+                            }
+                            .keyPressHandler(keyPressHandler)
                 })
                 .justifyContent(YogaJustify.CENTER)
                 .build()

@@ -6,6 +6,9 @@ import com.facebook.litho.*
 import com.facebook.litho.annotations.*
 import com.facebook.yoga.YogaJustify
 import com.facebook.yoga.YogaPositionType
+import com.facebook.litho.annotations.PropDefault
+
+
 
 /**
  * Created by Brandon on 9/25/2017.
@@ -13,21 +16,26 @@ import com.facebook.yoga.YogaPositionType
 @LayoutSpec(isPureRender = true)
 class KeyboardSpec {
     companion object {
+
         @JvmStatic
         @OnCreateLayout
         fun onCreateLayout(
                 c: ComponentContext,
                 @Prop startPitchClass: PitchClass,
                 @Prop count: Int,
-                @Prop keyPressHandler: EventHandler<KeyPressEvent>
+                @Prop keyPressHandler: EventHandler<KeyPressEvent>,
+                @Prop(optional = true, varArg = "keyHighlight") keyHighlights: List<Pair<PitchClass, Int>>?
         ): ComponentLayout {
             val (whitePitchClasses, blackPitchClasses) = computeKeyLists(startPitchClass, count)
+            val highlightsMap = (keyHighlights ?: listOf()).toMap()
             return Row.create(c)
                     .child(KeyRow.create(c)
                             .pitchClasses(whitePitchClasses)
+                            .keyHighlights(highlightsMap)
                             .keyPressHandler(keyPressHandler))
                     .child(KeyRow.create(c)
                             .pitchClasses(blackPitchClasses)
+                            .keyHighlights(highlightsMap)
                             .keyPressHandler(keyPressHandler)
                             .withLayout()
                             .positionType(YogaPositionType.ABSOLUTE)

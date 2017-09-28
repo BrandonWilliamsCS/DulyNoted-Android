@@ -21,3 +21,6 @@ fun ComponentLayout.ContainerBuilder.children(components: Sequence<Component<*>>
 @JvmName("childrenSeqComponentBuilder")
 fun ComponentLayout.ContainerBuilder.children(componentBuilders: Sequence<Component.Builder<*, *>>): ComponentLayout.ContainerBuilder
     = componentBuilders.fold(this) { builder, child -> builder.child(child) }
+
+fun <L: ComponentLifecycle, T: Component.Builder<L, T>> T.conditionally(condition: Boolean, transform: T.() -> T)
+    = if (condition) this.transform() else this
