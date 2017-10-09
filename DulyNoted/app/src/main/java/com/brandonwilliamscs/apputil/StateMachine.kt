@@ -2,7 +2,7 @@ package com.brandonwilliamscs.apputil
 
 import io.reactivex.Observable
 import io.reactivex.Observer
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.Scheduler
 import io.reactivex.subjects.PublishSubject
 
 /**
@@ -17,7 +17,11 @@ import io.reactivex.subjects.PublishSubject
  * @property viewEventObserver observes individual view events
  * @property stateChangeObservable emits new states for each event that comes in
  */
-class StateMachine<S, V, M>(initialState: S, stateTransition: (S, MultiplexedEvent<V, M>) -> S) {
+class StateMachine<S, V, M>(
+        initialState: S,
+        stateTransition: (S, MultiplexedEvent<V, M>) -> S,
+        scheduler: Scheduler
+) {
 
     val modelEventObserver: Observer<Observable<M>>
     val viewEventObserver: Observer<V>
@@ -27,20 +31,17 @@ class StateMachine<S, V, M>(initialState: S, stateTransition: (S, MultiplexedEve
 
     init {
         // start by creating a subject for each kind of event.
-        var modelEventSubjectOfStream = PublishSubject.create<Observable<M>>()
-        this.modelEventObserver = modelEventSubjectOfStream
-
-        var viewEventSubject = PublishSubject.create<V>()
-        this.viewEventObserver = viewEventSubject
+        this.modelEventObserver = PublishSubject.create<Observable<M>>()
+        this.viewEventObserver = PublishSubject.create<V>()
 
         // multiplex the streams so there's a single event stream.
         // flatten the model stream first in a way that allows interleaving.
-        val muxedModelStream = modelEventSubjectOfStream
-                .subscribeOn(Schedulers.computation())
+        val muxedModelStream = this.modelEventObserver
+                .subscribeOn(scheduler)
                 .flatMap { it }
                 .map { MultiplexedEvent<V, M>(null, it) }
-        val muxedViewStream = viewEventSubject
-                .subscribeOn(Schedulers.computation())
+        val muxedViewStream = viewEventObserver
+                .subscribeOn(scheduler)
                 .map { MultiplexedEvent<V, M>(it, null) }
         muxedEventStream = muxedModelStream.mergeWith(muxedViewStream)
 

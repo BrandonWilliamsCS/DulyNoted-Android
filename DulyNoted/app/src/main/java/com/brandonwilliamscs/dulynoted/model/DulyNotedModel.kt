@@ -7,28 +7,36 @@ import com.brandonwilliamscs.dulynoted.view.events.InternalReaction
 import com.brandonwilliamscs.dulynoted.view.events.UserIntent
 import io.reactivex.Observable
 import io.reactivex.Observer
+import io.reactivex.Scheduler
 import java.util.concurrent.TimeUnit
 
 /**
  * The root of all app logic for Duly Noted.
+ * Houses the state machine and reports "internal" events to it, when appropriate.
  * Created by Brandon on 9/28/2017.
  */
-class DulyNotedModel() {
-    //!! Don't allow repeat prompt?
-    //!! comments here, paying attention to javadoc
+class DulyNotedModel(scheduler: Scheduler) {
 
     /**
      * Encapsulates the application's initial state.
      */
     val initialState = DulyNotedState(PitchClass.getRandomPitchClass(), null)
 
-    // rely on the state machine for the complexity of the event/model interactions.
-    // oddly enough, there are no side-effects within the state machine, because it's all RX.
-    val stateMachine = StateMachine(initialState, this::processEvent)
+    /**
+     * Rely on the state machine for the complexity of the event/model interactions.
+     * Oddly enough, there are no side-effects within the state machine, because it's all RX.
+     */
+    val stateMachine = StateMachine(initialState, this::processEvent, scheduler)
 
+    // The following are just pass-through properties.
     val viewEventObserver: Observer<UserIntent> get() = stateMachine.viewEventObserver
-    val stateChangeObservable: Observable<DulyNotedState> = stateMachine.stateChangeObservable
+    val stateChangeObservable: Observable<DulyNotedState> get() = stateMachine.stateChangeObservable
 
+    /**
+     * Respond to the user guessing an answer
+     * @param state the state at the time of the event
+     * @param answerPitchClass the answer guessed
+     */
     fun guessAnswer(state: DulyNotedState, answerPitchClass: PitchClass): DulyNotedState {
         return if (state.currentGuess?.isCorrect == true)
             // Ignore key presses if we already have the correct answer highlighted
@@ -36,20 +44,20 @@ class DulyNotedModel() {
         else {
             if (answerPitchClass == state.currentPromptPitchClass) {
                 // Also, signal that we'd like to move on to the next prompt.
-                //!! extract constant
+                // TODO: take 500 from a preference
                 delayInternalEvent(InternalReaction.FinishReportingAnswer, 500)
             }
             state.updateGuess(answerPitchClass)
         }
     }
 
+    /**
+     * Clear the current slide and create a new one.
+     * @param state the state at the time of the event
+     */
     fun finishReportingAnswer(state: DulyNotedState): DulyNotedState
             // TODO: allow true
-            = state.nextSlide(PitchClass.getRandomPitchClass(false))
-
-    private fun delayInternalEvent(event: InternalReaction, delayMS: Long) {
-        stateMachine.modelEventObserver.onNext(Observable.timer(delayMS, TimeUnit.MILLISECONDS).map { event })
-    }
+            = state.nextSlide(PitchClass.getRandomPitchClass(false, state.currentPromptPitchClass))
 
     /**
      * Selects a transformation function based on the incoming event and applies it to the provided state.
@@ -82,6 +90,13 @@ class DulyNotedModel() {
             InternalReaction.FinishReportingAnswer -> finishReportingAnswer(startState)
         }
     }
+
+    /**
+     * Utility for emitting an event after a delay.
+     */
+    private fun delayInternalEvent(event: InternalReaction, delayMS: Long) {
+        stateMachine.modelEventObserver.onNext(Observable.timer(delayMS, TimeUnit.MILLISECONDS).map { event })
+    }
 }
 
 // Side-effect! Technically, random number generation isn't pure.
@@ -90,8 +105,15 @@ class DulyNotedModel() {
  * Generate a random pitch class, optionally allowing for sharpened semi-tones.
  * @param includeAllSemiTones whether or not to include sharpened classes, or just the base letters.
  */
-fun PitchClass.Companion.getRandomPitchClass(includeAllSemiTones: Boolean = false): PitchClass {
+fun PitchClass.Companion.getRandomPitchClass(
+        includeAllSemiTones: Boolean = false,
+        excludeValue: PitchClass? = null
+): PitchClass {
     val adjustmentRange = if (includeAllSemiTones) 12 else 7
-    val adjustment = (Math.random() * adjustmentRange).toInt()
-    return PitchClass.C.increasePitch(adjustment, includeAllSemiTones)
+    var newValue: PitchClass
+    do {
+        val adjustment = (Math.random() * adjustmentRange).toInt()
+        newValue = PitchClass.C.increasePitch(adjustment, includeAllSemiTones)
+    } while (newValue == excludeValue)
+    return newValue
 }

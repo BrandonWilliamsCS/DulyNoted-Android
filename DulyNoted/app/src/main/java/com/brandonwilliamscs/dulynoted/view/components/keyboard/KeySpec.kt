@@ -2,13 +2,9 @@ package com.brandonwilliamscs.dulynoted.view.components.keyboard
 
 import com.brandonwilliamscs.dulynoted.R
 import com.brandonwilliamscs.dulynoted.model.music.PitchClass
-import com.brandonwilliamscs.dulynoted.util.conditionally
 import com.brandonwilliamscs.dulynoted.view.events.KeyPressEvent
 import com.facebook.litho.*
-import com.facebook.litho.annotations.LayoutSpec
-import com.facebook.litho.annotations.OnCreateLayout
-import com.facebook.litho.annotations.OnEvent
-import com.facebook.litho.annotations.Prop
+import com.facebook.litho.annotations.*
 import com.facebook.yoga.YogaAlign
 
 /**
@@ -22,7 +18,7 @@ class KeySpec {
         fun onCreateLayout(
                 c: ComponentContext,
                 @Prop pitchClass: PitchClass?,
-                @Prop(optional = true) highlightColor: Int?
+                @Prop(optional = true, resType = ResType.COLOR) highlightColor: Int?
         ): ComponentLayout
                 = Column.create(c)
                 .child(

@@ -1,9 +1,6 @@
 package com.brandonwilliamscs.dulynoted.model
 
-import com.brandonwilliamscs.apputil.MultiplexedEvent
 import com.brandonwilliamscs.dulynoted.model.music.PitchClass
-import com.brandonwilliamscs.dulynoted.view.events.InternalReaction
-import com.brandonwilliamscs.dulynoted.view.events.UserIntent
 
 /**
  * Contains the entire state for the Duly Noted application. Includes both "current" screen state
@@ -12,7 +9,7 @@ import com.brandonwilliamscs.dulynoted.view.events.UserIntent
  * Created by Brandon on 9/17/2017.
  * TODO: separate into "current view", preferences, statistics, etc.
  * @property currentPromptPitchClass the pitch class to be shown to the user in the prompt
- * @property currentGuess the pitch class selected by the user, if applicable
+ * @property currentGuess the pitch class selected` by the user, if applicable
  */
 class DulyNotedState(
         val currentPromptPitchClass: PitchClass,

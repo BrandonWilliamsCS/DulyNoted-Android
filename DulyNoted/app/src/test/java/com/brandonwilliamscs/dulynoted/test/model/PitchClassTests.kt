@@ -2,9 +2,9 @@ package com.brandonwilliamscs.dulynoted.test.model
 
 import com.brandonwilliamscs.dulynoted.model.music.NoteLetter
 import com.brandonwilliamscs.dulynoted.model.music.PitchClass
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class PitchClassTests {
 
@@ -13,6 +13,13 @@ class PitchClassTests {
     fun hasValidBaseC() {
         assertEquals(NoteLetter.C, PitchClass.C.baseNoteLetter)
         assertEquals(false, PitchClass.C.sharpenBaseNote)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun hasCorrectSharpDetection() {
+        assertEquals(true, PitchClass.C.hasSharp)
+        assertEquals(false, PitchClass.C.increasePitch(2).hasSharp)
     }
 
     class MatchesTests {

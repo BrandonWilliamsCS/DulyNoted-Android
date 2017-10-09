@@ -1,14 +1,13 @@
 package com.brandonwilliamscs.dulynoted
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.brandonwilliamscs.apputil.StateMachine
+import android.support.v7.app.AppCompatActivity
 import com.brandonwilliamscs.dulynoted.model.DulyNotedModel
-import com.brandonwilliamscs.dulynoted.model.DulyNotedState
 import com.brandonwilliamscs.dulynoted.view.components.FlashCards
 import com.facebook.litho.ComponentContext
 import com.facebook.litho.LithoView
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 /**
  * The one and only Activity in Duly Noted.
@@ -19,7 +18,8 @@ class DulyNotedActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val context = ComponentContext(this)
-        val model = DulyNotedModel()
+        val backgroundScheduler = Schedulers.computation()
+        val model = DulyNotedModel(backgroundScheduler)
 
         val lithoView = LithoView.create(
                 this /* context */,

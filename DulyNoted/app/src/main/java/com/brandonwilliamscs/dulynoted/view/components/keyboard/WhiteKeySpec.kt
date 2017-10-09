@@ -7,6 +7,7 @@ import com.facebook.litho.ComponentLayout
 import com.facebook.litho.annotations.LayoutSpec
 import com.facebook.litho.annotations.OnCreateLayout
 import com.facebook.litho.annotations.Prop
+import com.facebook.litho.annotations.ResType
 import com.facebook.litho.widget.SolidColor
 import com.facebook.yoga.YogaEdge
 
@@ -18,9 +19,9 @@ class WhiteKeySpec {
     companion object {
         @JvmStatic
         @OnCreateLayout
-        fun onCreateLayout(c: ComponentContext, @Prop highlightColor: Int?): ComponentLayout
+        fun onCreateLayout(c: ComponentContext, @Prop(resType = ResType.COLOR) highlightColor: Int?): ComponentLayout
                 = SolidColor.create(c)
-                .color(highlightColor ?: Color.WHITE)
+                .colorRes(highlightColor ?: R.color.whiteKey)
                 .withLayout()
                 .widthPercent(100f)
                 .heightPercent(100f)
