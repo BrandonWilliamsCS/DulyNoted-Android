@@ -1,10 +1,9 @@
 package com.brandonwilliamscs.dulynoted.test.model
 
-import com.brandonwilliamscs.dulynoted.test.assertThrows
 import com.brandonwilliamscs.dulynoted.model.music.NoteLetter
+import com.brandonwilliamscs.dulynoted.test.assertThrows
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class NoteLetterTests {
 

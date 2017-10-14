@@ -5,34 +5,25 @@ import com.brandonwilliamscs.dulynoted.model.music.PitchClass
 /**
  * Contains the entire state for the Duly Noted application. Includes both "current" screen state
  *  and any background preferences, records, etc.
+ * This shouldn't house business logic, but just provide a container for the state and some convenience methods.
  * Created by Brandon on 9/17/2017.
- *
+ * TODO: separate into "current view", preferences, statistics, etc.
  * @property currentPromptPitchClass the pitch class to be shown to the user in the prompt
+ * @property currentGuess the pitch class selected` by the user, if applicable
  */
-class DulyNotedState(val currentPromptPitchClass: PitchClass) {
+class DulyNotedState(
+        val currentPromptPitchClass: PitchClass,
+        val currentGuess: Guess?
+) {
     /**
-     * Advances the current slideshow one slide, if appropriate.
-     *
-     * Note: this *can* be static now, but it eventually shouldn't be that simple.
+     * Changes the current guess to the value provided.
+     * @param answerPitchClass the value of the new guess
      */
-    fun nextSlideRequested() = DulyNotedState(PitchClass.getRandomPitchClass())
+    fun updateGuess(answerPitchClass: PitchClass): DulyNotedState
+        = DulyNotedState(currentPromptPitchClass, Guess(answerPitchClass, answerPitchClass == currentPromptPitchClass))
 
-    companion object {
-        /**
-         * Encapsulates the application's initial state.
-         */
-        val initialState = DulyNotedState(PitchClass.getRandomPitchClass())
-    }
-}
-
-// Side-effect! Technically, random number generation isn't pure.
-
-/**
- * Generate a random pitch class, optionally allowing for sharpened semi-tones.
- * @param includeAllSemiTones whether or not to include sharpened classes, or just the base letters.
- */
-fun PitchClass.Companion.getRandomPitchClass(includeAllSemiTones: Boolean = false): PitchClass {
-    val adjustmentRange = if (includeAllSemiTones) 12 else 7
-    val adjustment = (Math.random() * adjustmentRange).toInt()
-    return PitchClass.C.increasePitch(adjustment, includeAllSemiTones)
+    /**
+     * Advances the current slideshow one slide.
+     */
+    fun nextSlide(nextPitchClass: PitchClass) = DulyNotedState(nextPitchClass, null)
 }

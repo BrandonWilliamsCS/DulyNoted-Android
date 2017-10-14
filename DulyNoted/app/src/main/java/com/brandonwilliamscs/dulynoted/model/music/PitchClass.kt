@@ -32,7 +32,7 @@ data class PitchClass private constructor(
         /**
          * The pitch class associated with the note letter C.
          */
-        val C: PitchClass = pitchClasses[0];
+        val C: PitchClass = pitchClasses[0]
 
         /**
          * Retrieve the pitch class from the given note letter and optional sharpening.
@@ -77,4 +77,9 @@ data class PitchClass private constructor(
             return getPitchClass(letter)
         }
     }
+
+    /**
+     * Convenience property for recognizing notes that could have a "sharp" form.
+     */
+    val hasSharp: Boolean get() = baseNoteLetter == increasePitch(1, true).baseNoteLetter
 }

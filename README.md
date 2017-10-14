@@ -17,7 +17,8 @@ By channeling state-changing events through a stream, we ensure that the state g
   - immutable collections and data structures
   - declarative UI
   - Functional Reactive Programming for data flows (communication across app areas)
-- Mark any side effect with a `Side-effect!` comment, along with a justification
+- Mark any side-effect with a `Side-effect!` comment, along with a justification
+- Suffix any custom function name with a side-effect with `_Impure` (i.e., not library functions)
 - Full unit test coverage on the model, as well as on complex Litho components
 - Maintain best practices and patterns for Android or app dev in general
 

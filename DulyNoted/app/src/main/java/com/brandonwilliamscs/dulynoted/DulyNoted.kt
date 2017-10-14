@@ -1,11 +1,11 @@
 package com.brandonwilliamscs.dulynoted
 
-import com.facebook.litho.stetho.LithoWebKitInspector
-import com.facebook.stetho.Stetho
-import com.facebook.soloader.SoLoader
 import android.app.Application
+import com.facebook.litho.stetho.LithoWebKitInspector
+import com.facebook.soloader.SoLoader
+import com.facebook.stetho.Stetho
 
-
+//!! launcher icon
 
 /**
  * Application class houses the initialization code for SoLoader and Stetho.

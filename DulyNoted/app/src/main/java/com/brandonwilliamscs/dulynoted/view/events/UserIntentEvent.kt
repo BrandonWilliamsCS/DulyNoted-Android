@@ -7,6 +7,6 @@ import com.facebook.litho.annotations.Event
  */
 @Event
 class UserIntentEvent {
-    lateinit var variant: UserIntent
+    lateinit var userIntent: UserIntent
     // Maybe, in the future, include context info
 }
